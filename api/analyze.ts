@@ -4,6 +4,7 @@
  */
 
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { analyzeWebsite } from "../server/analyzer";
 
 // Helper to generate fallback mock report for any domain
 function generateFallbackReport(url: string) {
@@ -191,9 +192,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     console.log(`Vercel Serverless Analyzing: ${url}`);
 
-    // Try to use the real analyzer first
+    // Use the real analyzer — static import ensures Vercel bundles it
     try {
-      const { analyzeWebsite } = await import("../server/analyzer");
       const report = await analyzeWebsite(url);
       return res.status(200).json(report);
     } catch (analyzerError: any) {
