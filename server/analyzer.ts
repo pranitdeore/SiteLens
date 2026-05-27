@@ -799,7 +799,7 @@ export async function analyzeWebsite(rawUrl: string, options: { timeoutMs?: numb
   };
 
   // 9. Final global aesthetic score aggregator
-  const finalScore = Math.round((seo.score + performance.score + 85) / 3);
+  const finalScore = Math.round((seo.score + performance.score) / 2);
 
   // 10. Interactive Screenshot Simulator generator (SVG based Base64 vector mockups)
   const defaultPageColors = {
