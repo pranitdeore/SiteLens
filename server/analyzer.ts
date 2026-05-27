@@ -3,8 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as cheerio from "cheerio";
-import { GoogleGenAI, Type } from "@google/genai";
+// Dynamic imports used to prevent serverless crashes
 import { 
   AnalysisReport, 
   OverviewData, 
@@ -92,7 +91,7 @@ function extractHexColors(html: string): ColorItem[] {
 }
 
 // Detect technologies programmatically from cheerio and HTML text
-function detectTechnologiesProgrammatic(html: string, $: cheerio.CheerioAPI): TechnologyItem[] {
+function detectTechnologiesProgrammatic(html: string, $: any): TechnologyItem[] {
   const techs: TechnologyItem[] = [];
   const textVal = html.toLowerCase();
 
@@ -175,6 +174,7 @@ async function runIntelligentGeminiAnalysis(
   }
 
   try {
+    const { GoogleGenAI } = await import("@google/genai");
     const ai = new GoogleGenAI({
       apiKey,
       httpOptions: {
@@ -292,7 +292,8 @@ export async function analyzeWebsite(rawUrl: string, options: { timeoutMs?: numb
     clearTimeout(id);
   }
 
-  // Load Cheerio
+  // Load Cheerio dynamically to prevent Vercel top-level crash
+  const cheerio = await import("cheerio");
   const $ = cheerio.load(responseText);
 
   // 1. Overview data

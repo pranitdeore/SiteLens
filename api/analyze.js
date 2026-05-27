@@ -1,6 +1,4 @@
 // server/analyzer.ts
-import * as cheerio from "cheerio";
-import { GoogleGenAI } from "@google/genai";
 function blockPrivateNetworkUrls(urlString) {
   try {
     const url = new URL(urlString);
@@ -95,6 +93,7 @@ async function runIntelligentGeminiAnalysis(url, overview, source, detectedTechs
     return null;
   }
   try {
+    const { GoogleGenAI } = await import("@google/genai");
     const ai = new GoogleGenAI({
       apiKey,
       httpOptions: {
@@ -199,6 +198,7 @@ async function analyzeWebsite(rawUrl, options = {}) {
   } finally {
     clearTimeout(id);
   }
+  const cheerio = await import("cheerio");
   const $ = cheerio.load(responseText);
   const parsedDomain = new URL(finalUri).hostname;
   const title = $("title").first().text().trim() || $('meta[property="og:title"]').attr("content") || $('meta[name="twitter:title"]').attr("content") || parsedDomain;
