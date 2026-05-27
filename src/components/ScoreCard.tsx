@@ -8,7 +8,6 @@ import { motion } from "motion/react";
 import { CheckCircle2, AlertTriangle, Lightbulb, TrendingUp, Cpu, Award, Zap, ShieldAlert } from "lucide-react";
 
 interface ScoreCardProps {
-  score: number;
   seoScore: number;
   perfScore: number;
 }
@@ -44,84 +43,20 @@ function AnimatedNumber({ value }: { value: number }) {
   return <>{current}</>;
 }
 
-export default function ScoreCard({ score, seoScore, perfScore }: ScoreCardProps) {
-  // Determine color theme based on score
-  const getScoreColor = (val: number) => {
-    if (val >= 90) return { stroke: "#10B981", text: "text-emerald-600", bg: "bg-emerald-50", label: "Healthy Audit" };
-    if (val >= 70) return { stroke: "#3B82F6", text: "text-blue-600", bg: "bg-blue-50", label: "Good Architecture" };
-    if (val >= 50) return { stroke: "#F59E0B", text: "text-amber-600", bg: "bg-amber-50", label: "Attention Needed" };
-    return { stroke: "#EF4444", text: "text-red-650", bg: "bg-red-50", label: "Critical Fixes" };
-  };
-
-  const style = getScoreColor(score);
-  
-  // Calculate SVG circular stroke offsets
-  const radius = 50;
-  const circumference = 2 * Math.PI * radius;
-
+export default function ScoreCard({ seoScore, perfScore }: ScoreCardProps) {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
       id="score-card" 
-      className="bg-white border border-[#E2E8F0] rounded-2xl p-6 shadow-sm grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch relative overflow-hidden"
+      className="bg-white border border-[#E2E8F0] rounded-2xl p-6 shadow-sm relative overflow-hidden"
     >
       {/* Visual background ambient gradient node */}
       <div className="absolute top-0 right-0 w-48 h-48 bg-blue-50/20 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Circle dial column */}
-      <div className="flex flex-col items-center justify-center text-center p-4 border-b md:border-b-0 md:border-r border-[#F1F5F9] relative">
-        <div className="absolute top-0 flex items-center gap-1">
-          <Award className="w-3.5 h-3.5 text-[#2563EB]" />
-          <span className="text-[10px] font-bold text-[#64748B] uppercase tracking-widest font-mono">SiteLens Level</span>
-        </div>
-        
-        <div className="relative w-36 h-36 flex items-center justify-center mt-6">
-          {/* Circular SVG Progress with Framer Motion pathLength draw */}
-          <svg className="w-full h-full transform -rotate-90" viewBox="0 0 120 120">
-            {/* Background tracking track circle */}
-            <circle
-              className="text-slate-100"
-              strokeWidth="10"
-              stroke="currentColor"
-              fill="transparent"
-              r={radius}
-              cx="60"
-              cy="60"
-            />
-            {/* Main animated progress stroke */}
-            <motion.circle
-              strokeWidth="10"
-              stroke={style.stroke}
-              strokeDasharray={circumference}
-              initial={{ strokeDashoffset: circumference }}
-              animate={{ strokeDashoffset: circumference - (score / 100) * circumference }}
-              transition={{ duration: 1.2, ease: "easeOut" }}
-              strokeLinecap="round"
-              fill="transparent"
-              r={radius}
-              cx="60"
-              cy="60"
-            />
-          </svg>
-          
-          <div className="absolute flex flex-col items-center">
-            <span className="text-4xl font-extrabold text-[#0F172A] tracking-tight font-display">
-              <AnimatedNumber value={score} />
-            </span>
-            <span className="text-[10px] font-bold text-[#64748B] font-mono">/ 100</span>
-          </div>
-        </div>
-
-        <div className="mt-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#F8FAFC] border border-[#E2E8F0] text-[#0F172A]">
-          <span className="w-2 h-2 rounded-full" style={{ backgroundColor: style.stroke }} />
-          <span>{style.label}</span>
-        </div>
-      </div>
-
       {/* Strengths & Roadmap indicators */}
-      <div className="md:col-span-2 flex flex-col justify-between py-1">
+      <div className="flex flex-col justify-between py-1">
         <div>
           <h3 className="text-sm font-bold text-[#64748B] uppercase tracking-wider mb-4 font-mono flex items-center gap-1.5">
             <TrendingUp className="w-4 h-4 text-[#2563EB]" />

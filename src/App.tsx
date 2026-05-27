@@ -193,17 +193,6 @@ export default function App() {
                   <span>{report.overview.domain}</span>
                 </h2>
               </div>
-              
-              <div className="flex items-center gap-4">
-                <div className="flex flex-col items-end">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#64748B]">Overall Score</span>
-                  <span className="text-2xl font-black text-[#2563EB] font-display">{report.finalScore}/100</span>
-                </div>
-                <div 
-                  className="w-10 h-10 rounded-full border-4 border-[#E2E8F0] border-t-[#2563EB] shrink-0" 
-                  style={{ transform: `rotate(${report.finalScore * 3.6}deg)` }}
-                />
-              </div>
             </div>
 
             {/* Split layout: Sidebar Left, Active Tab Content Right */}
@@ -230,7 +219,7 @@ export default function App() {
                     {currentTab === "overview" && (
                       <div className="space-y-6">
                         <OverviewCard overview={report.overview} />
-                        <ScoreCard score={report.finalScore} seoScore={report.seo.score} perfScore={report.performance.score} />
+                        <ScoreCard seoScore={report.seo.score} perfScore={report.performance.score} />
                         <RecommendationPanel recommendations={report.recommendations} />
                       </div>
                     )}
