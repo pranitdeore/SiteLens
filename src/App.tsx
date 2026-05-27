@@ -46,11 +46,25 @@ export default function App() {
       });
 
       if (!response.ok) {
-        const errData = await response.json();
-        throw new Error(errData.error || "Failed to trigger analysis scanner.");
+        let errorMessage = `Server responded with status ${response.status}.`;
+        try {
+          const errData = await response.json();
+          errorMessage = errData.error || errorMessage;
+        } catch (_) {
+          // Response was not JSON (e.g., Vercel HTML error page)
+          const text = await response.text().catch(() => "");
+          if (text) errorMessage = `Server error (${response.status}): The API returned an unexpected response.`;
+        }
+        throw new Error(errorMessage);
       }
 
-      const reportData: AnalysisReport = await response.json();
+      const responseText = await response.text();
+      let reportData: AnalysisReport;
+      try {
+        reportData = JSON.parse(responseText);
+      } catch (_) {
+        throw new Error("The server returned an invalid response. Please try again.");
+      }
       setReport(reportData);
       setCurrentTab("overview");
     } catch (error: any) {
