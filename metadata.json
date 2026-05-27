@@ -1,0 +1,6 @@
+{
+  "name": "SiteLens",
+  "description": "An intelligent website analyzer platform to explore code, design, fonts, images, technologies, and SEO in one dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
