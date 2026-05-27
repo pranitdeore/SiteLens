@@ -57,11 +57,17 @@ export default function FontDetectorCard({ fonts }: FontDetectorCardProps) {
                 className="p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-slate-50 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3"
               >
                 <div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     <span className="font-bold text-slate-800 font-sans">{font.name}</span>
                     <span className={`px-2 py-0.5 text-[10px] uppercase font-bold rounded-sm border ${getBadgeColors(font.type)}`}>
                       {font.type || "unknown"}
                     </span>
+                    {font.name === fonts.headingFont && (
+                       <span className="px-2 py-0.5 text-[9px] bg-slate-800 text-white font-bold rounded-sm uppercase tracking-widest border border-slate-900 shadow-sm">Heading Font</span>
+                    )}
+                    {font.name === fonts.bodyFont && (
+                       <span className="px-2 py-0.5 text-[9px] bg-slate-500 text-white font-bold rounded-sm uppercase tracking-widest border border-slate-600 shadow-sm">Body Font</span>
+                    )}
                   </div>
                   <p className="text-xs text-slate-500 font-sans mt-0.5 mt-1">
                     Family: <span className="font-mono text-slate-600 font-medium">{font.family}</span> | Selector: <span className="text-blue-500 font-mono text-[11px]">{font.selector}</span>
